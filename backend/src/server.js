@@ -92,11 +92,21 @@ app.use(cors({
         const allowedOrigins = process.env.FRONTEND_URL 
             ? process.env.FRONTEND_URL.split(',').map(url => url.replace(/\/$/, '')) 
             : [];
+        
+        // Default fallbacks for production and local environments
+        const fallbacks = ['https://rwholesale.netlify.app', 'http://localhost:5173'];
+        fallbacks.forEach(fb => {
+            if (!allowedOrigins.includes(fb)) {
+                allowedOrigins.push(fb);
+            }
+        });
+
         const normalizedOrigin = origin ? origin.replace(/\/$/, '') : null;
         if (!origin || allowedOrigins.includes(normalizedOrigin)) {
             callback(null, true);
         } else {
-            callback(new Error('Not allowed by CORS'));
+            console.warn(`[CORS] Rejected request from origin: ${origin}`);
+            callback(new Error(`Not allowed by CORS: ${origin}`));
         }
     },
     credentials: true,
