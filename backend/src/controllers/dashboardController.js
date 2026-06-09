@@ -60,18 +60,18 @@ export const getDashboardKpis = asyncHandler(async (req, res) => {
     // Outstanding receivables (unpaid + overdue)
     const [arTotal, overdueAr] = await Promise.all([
         Invoice.aggregate([
-            { $match: { deletedAt: null, paymentStatus: { $in: ['unpaid', 'partially_paid', 'overdue'] } } },
+            { $match: { deletedAt: null, paymentStatus: { $in: ['unpaid', 'partially_paid', 'overdue', 'Unpaid', 'Partially Paid', 'Overdue', 'partially paid'] } } },
             { $group: { _id: null, total: { $sum: '$balanceDue' } } },
         ]),
         Invoice.aggregate([
-            { $match: { deletedAt: null, paymentStatus: 'overdue' } },
+            { $match: { deletedAt: null, paymentStatus: { $in: ['overdue', 'Overdue'] } } },
             { $group: { _id: null, total: { $sum: '$balanceDue' }, count: { $sum: 1 } } },
         ]),
     ]);
 
     // Outstanding payables
     const apTotal = await Bill.aggregate([
-        { $match: { deletedAt: null, paymentStatus: { $in: ['unpaid', 'partially_paid', 'overdue'] } } },
+        { $match: { deletedAt: null, paymentStatus: { $in: ['unpaid', 'partially_paid', 'overdue', 'Unpaid', 'Partially Paid', 'Overdue', 'partially paid'] } } },
         { $group: { _id: null, total: { $sum: '$balanceDue' } } },
     ]);
 
@@ -355,11 +355,11 @@ export const getDepartmentDashboardMetrics = asyncHandler(async (req, res) => {
 
     const [arTotal, apTotal] = await Promise.all([
         Invoice.aggregate([
-            { $match: { deletedAt: null, paymentStatus: { $in: ['unpaid', 'partially_paid', 'overdue'] } } },
+            { $match: { deletedAt: null, paymentStatus: { $in: ['unpaid', 'partially_paid', 'overdue', 'Unpaid', 'Partially Paid', 'Overdue', 'partially paid'] } } },
             { $group: { _id: null, total: { $sum: '$balanceDue' } } }
         ]),
         Bill.aggregate([
-            { $match: { deletedAt: null, paymentStatus: { $in: ['unpaid', 'partially_paid', 'overdue'] } } },
+            { $match: { deletedAt: null, paymentStatus: { $in: ['unpaid', 'partially_paid', 'overdue', 'Unpaid', 'Partially Paid', 'Overdue', 'partially paid'] } } },
             { $group: { _id: null, total: { $sum: '$balanceDue' } } }
         ])
     ]);
