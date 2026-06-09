@@ -30,7 +30,7 @@ export default function ChequeLedgerPage() {
 
     useEffect(() => {
         // Socket.IO real-time updates for bank and cheque clearances
-        const socket = io(import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000', {
+        const socket = io(import.meta.env.VITE_BACKEND_URL || 'https://whole-sale-shew.onrender.com', {
             withCredentials: true,
         });
         socket.on('cheque_cleared', () => {

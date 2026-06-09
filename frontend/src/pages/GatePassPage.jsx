@@ -43,7 +43,7 @@ export default function GatePassPage() {
     useEffect(() => {
         fetchPasses();
         // Socket.IO real-time updates
-        const socket = io(import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000', {
+        const socket = io(import.meta.env.VITE_BACKEND_URL || 'https://whole-sale-shew.onrender.com', {
             withCredentials: true,
         });
         socket.on('gate_pass_approved', () => { fetchPasses(); toast.success('✅ Gate pass approved!'); });

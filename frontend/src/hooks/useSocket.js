@@ -16,7 +16,7 @@ export const useSocket = () => {
 
         if (!socket) {
             // Strip /api from VITE_API_URL to get the base socket server URL
-            const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5001/api').replace('/api', '');
+            const baseUrl = (import.meta.env.VITE_API_URL || 'https://whole-sale-shew.onrender.com/api').replace('/api', '');
 
             socket = io(baseUrl, {
                 auth: { userId: user._id },

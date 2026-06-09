@@ -29,7 +29,7 @@ export default function GateScreenPage() {
         const poll = setInterval(fetchScreen, 30000);
 
         // Socket.IO primary channel
-        const socket = io(import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000', { withCredentials: true });
+        const socket = io(import.meta.env.VITE_BACKEND_URL || 'https://whole-sale-shew.onrender.com', { withCredentials: true });
         socket.on('connect', () => setConnected(true));
         socket.on('disconnect', () => setConnected(false));
         socket.on('gate_pass_approved', (data) => {
