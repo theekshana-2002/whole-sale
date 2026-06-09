@@ -6,8 +6,11 @@ export const initSocket = (httpServer) => {
     io = new Server(httpServer, {
         cors: {
             origin: function (origin, callback) {
-                const allowedOrigins = process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',') : [];
-                if (!origin || allowedOrigins.includes(origin)) {
+                const allowedOrigins = process.env.FRONTEND_URL 
+                    ? process.env.FRONTEND_URL.split(',').map(url => url.replace(/\/$/, '')) 
+                    : [];
+                const normalizedOrigin = origin ? origin.replace(/\/$/, '') : null;
+                if (!origin || allowedOrigins.includes(normalizedOrigin)) {
                     callback(null, true);
                 } else {
                     callback(new Error('Not allowed by CORS'));
